@@ -1,17 +1,23 @@
 'use client';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 
 const initial = { userName: '', email: '', password: '' };
 
 export default function Register() {
   const [user, setUser] = useState({ ...initial });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user);
+    try {
+      const response = await axios.post('/api/users/register', user);
+      alert(response.data.message);
+    } catch (error) {
+      alert('Something went wrong');
+    }
   };
 
   return (
